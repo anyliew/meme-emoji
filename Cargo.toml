@@ -1,0 +1,27 @@
+[package]
+name = "meme_emoji"
+description = "meme_emoji_rust"
+version = "0.0.3"
+authors = ["Anyliew <anyliew@outlook.com>"]
+license = "MIT"
+readme = "README.md"
+homepage = "https://github.com/anyliew/meme_emoji_rust"
+repository = "https://github.com/anyliew/meme_emoji_rust"
+edition = "2024"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+inventory = "0.3"
+serde = "1.0"
+skia-safe = { version = "0.80", features = ["textlayout"] }
+
+meme_generator_core = "0.0.4"
+meme_generator_utils = "0.0.8"
+
+[profile.release]
+strip = true
+opt-level = "z"
+lto = true
+codegen-units = 1

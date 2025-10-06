@@ -1,0 +1,114 @@
+# 定义 GitHub Actions 工作流的名称
+name: Update wiki
+
+# 触发工作流的事件配置
+on:
+  # 当有代码推送到指定分支时触发
+  push:
+    # 指定触发分支
+    branches:
+      - main
+    # 指定触发路径，只有 src 目录下的文件变更才会触发
+    paths:
+      - "src/**"
+  # 允许手动触发工作流
+  workflow_dispatch:
+
+# 设置工作流的权限
+permissions:
+  # 授予写入仓库内容的权限
+  contents: write
+
+# 定义工作流中的任务
+jobs:
+  # 更新 wiki 的任务
+  update-wiki:
+    # 指定运行环境为22.04的 Ubuntu 系统
+    runs-on: ubuntu-22.04
+    # 定义任务执行步骤
+    steps:
+      # 第一步：检出当前仓库代码
+      - uses: actions/checkout@v4
+
+      # 第二步：检出 wiki 仓库代码
+      - name: Checkout wiki repo
+        uses: actions/checkout@v4
+        with:
+          # 指定要检出的 wiki 仓库，格式为 当前仓库名.wiki
+          repository: ${{ github.repository }}.wiki
+          # 指定 wiki 仓库的检出路径
+          path: wiki
+
+      # 第三步：检出主仓库代码
+      - name: Checkout main repo
+        uses: actions/checkout@v4
+        with:
+          # 指定主仓库地址
+          repository: MemeCrafters/meme-generator-rs
+          # 指定主仓库的检出路径
+          path: main
+
+      # 第四步：设置指定版本的 Rust 工具链
+      - uses: dtolnay/rust-toolchain@1.88.0
+      # 第五步：设置 Rust 构建缓存，加速后续构建
+      - uses: swatinem/rust-cache@v2
+
+      # 第六步：设置 Python 环境
+      - name: Setup python
+        uses: actions/setup-python@v5
+        with:
+          # 指定 Python 版本为 3.10
+          python-version: "3.10"
+
+      # 第七步：安装系统依赖
+      - name: Install dependencies
+        run: |
+          # 安装字体相关的系统库
+          sudo apt install -y libfontconfig1-dev libfreetype6-dev
+
+      # 第八步：更新 memes.md 文件（核心步骤）
+      - name: Update memes.md
+        run: |
+          # 安装 Python 虚拟环境和构建工具
+          pip install virtualenv maturin[patchelf]
+          # 进入 Python 项目目录
+          cd main/meme_generator_py
+          # 创建 Python 虚拟环境
+          virtualenv .venv
+          # 在开发模式下构建 Rust 扩展
+          maturin develop --release
+          # 激活虚拟环境
+          source .venv/bin/activate
+          # 安装必要的 Python 包
+          pip install filetype pillow
+          # 返回上级目录
+          cd ../..
+          # 以发布模式构建 Rust 项目
+          cargo build --release
+          # 创建库文件目录
+          mkdir libraries
+          # 复制构建好的 Rust 库文件
+          cp target/release/libmeme_emoji.so libraries/
+          # 复制字体资源文件
+          cp -r main/resources/fonts resources/
+          # 创建配置文件，设置只加载外部表情包
+          echo -e "[meme]\nload_builtin_memes = false\nload_external_memes = true\n" > config.toml
+          # 设置环境变量，指定 meme 生成器的主目录
+          export MEME_HOME=.
+          # 执行 Python 脚本更新表情包列表
+          python wiki/update_meme_list.py
+
+      # 第九步：提交并推送更改到 wiki 仓库
+      - name: Commit & Push changes
+        uses: actions-js/push@master
+        with:
+          # 指定要推送的目录（wiki 目录）
+          directory: "wiki"
+          # 指定目标仓库
+          repository: ${{ github.repository }}.wiki
+          # 使用 GitHub token 进行认证
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          # 提交信息
+          message: "update meme list"
+          # 推送到 wiki 仓库的 master 分支
+          branch: "master"

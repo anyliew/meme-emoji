@@ -25,3 +25,4 @@ inages_output/
 temp/
 update_rust_dates.py
 meme_emoji_rust.eddx
+generate_mods.py

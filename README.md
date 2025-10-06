@@ -61,14 +61,7 @@
 
 ## ⚖ 许可证
 
-延续(copy) meme-generator-rs 作者  MeetWq MIT 许可证 
-
-> MIT License https://github.com/MemeCrafters/meme-generator-rs/blob/main/LICENSE
-> 
-> MIT License https://github.com/anyliew/meme_emoji_rust_rust/blob/main/LICENSE
-> 
->chat.deepseek https://github.com/anyliew/meme_emoji_rust_rust/raw/main/docs/picture/chat.deepseek.png)
-
+> MIT License https://github.com/anyliew/meme_emoji_rust/blob/main/LICENSE
 
 ## 📝 反馈
 

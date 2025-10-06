@@ -93,4 +93,3 @@ mod yuzu_soft_murasame_dislike;
 mod yuzu_soft_murasame_husband;
 mod yuzu_soft_murasame_like;
 mod yuzu_soft_murasame_say;
-mod yuzu_soft_shocked;

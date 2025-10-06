@@ -52,7 +52,7 @@
 
 ## 📄 使用教程 
 
-可在 [Actions](https://github.com/anyliew/meme_emoji_nsfw_rust/actions/workflows/build.yml) 中下载编译好的动态链接库，并参考 [`meme-generator-rs` 加载其他表情的方式](https://github.com/MemeCrafters/meme-generator-rs/wiki/%E5%8A%A0%E8%BD%BD%E5%85%B6%E4%BB%96%E8%A1%A8%E6%83%85) 进行加载
+可在 [Actions](https://github.com/anyliew/meme_emoji_rust/actions/workflows/build.yml) 中下载编译好的动态链接库，并参考 [`meme-generator-rs` 加载其他表情的方式](https://github.com/MemeCrafters/meme-generator-rs/wiki/%E5%8A%A0%E8%BD%BD%E5%85%B6%E4%BB%96%E8%A1%A8%E6%83%85) 进行加载
 
 
 - [meme-generator-rs wiki](https://github.com/MemeCrafters/meme-generator-rs/wiki) 

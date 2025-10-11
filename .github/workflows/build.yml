@@ -16,6 +16,9 @@ on:
 permissions:
   contents: read
 
+env:
+  CARGO_NET_GIT_FETCH_WITH_CLI: true
+
 jobs:
   build:
     runs-on: ${{ matrix.platform.runner }}
@@ -25,12 +28,15 @@ jobs:
           - runner: windows-latest
             target: x86_64-pc-windows-msvc
             label: windows-x86_64
+            ext: dll
           - runner: macos-latest
             target: x86_64-apple-darwin
             label: macos-x86_64
+            ext: dylib
           - runner: macos-latest
             target: aarch64-apple-darwin
             label: macos-aarch64
+            ext: dylib
 
     steps:
       - uses: actions/checkout@v4
@@ -43,12 +49,21 @@ jobs:
       - name: Build target
         run: cargo build --release --target ${{ matrix.platform.target }}
 
+      - name: Rename output files
+        run: |
+          cd target/${{ matrix.platform.target }}/release/
+          for file in *.${{ matrix.platform.ext }}; do
+            if [ -f "$file" ]; then
+              new_name="${file%.*}_${{ matrix.platform.label }}.${file##*.}"
+              mv "$file" "$new_name"
+            fi
+          done
+
       - uses: actions/upload-artifact@v4
         with:
           name: "meme_emoji_${{ matrix.platform.label }}"
           path: |
-            target/${{ matrix.platform.target }}/release/*.dll
-            target/${{ matrix.platform.target }}/release/*.dylib
+            target/${{ matrix.platform.target }}/release/*_${{ matrix.platform.label }}.*
 
   build_linux:
     runs-on: ${{ matrix.platform.runner }}
@@ -60,10 +75,12 @@ jobs:
             container: ghcr.io/memecrafters/meme-generator-build-container:latest
             target: x86_64-unknown-linux-gnu
             label: linux-x86_64
+            ext: so
           - runner: ubuntu-24.04-arm
             container: ghcr.io/memecrafters/meme-generator-build-container:arm64
             target: aarch64-unknown-linux-gnu
             label: linux-aarch64
+            ext: so
 
     steps:
       - uses: actions/checkout@v4
@@ -76,8 +93,51 @@ jobs:
       - name: Build target
         run: cargo build --release --target ${{ matrix.platform.target }}
 
+      - name: Rename output files
+        run: |
+          cd target/${{ matrix.platform.target }}/release/
+          for file in *.${{ matrix.platform.ext }}; do
+            if [ -f "$file" ]; then
+              new_name="${file%.*}_${{ matrix.platform.label }}.${file##*.}"
+              mv "$file" "$new_name"
+            fi
+          done
+
       - uses: actions/upload-artifact@v4
         with:
           name: "meme_emoji_${{ matrix.platform.label }}"
           path: |
-            target/${{ matrix.platform.target }}/release/*.so
+            target/${{ matrix.platform.target }}/release/*_${{ matrix.platform.label }}.*
+
+  release:
+    name: Create Release
+    needs: [build, build_linux]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          
+      - name: List all downloaded files
+        run: find artifacts -type f -name "*" | sort
+        
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: build-${{ github.sha }}
+          name: Build ${{ github.sha }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          files: |
+            artifacts/**/*_windows-x86_64.*
+            artifacts/**/*_macos-x86_64.*
+            artifacts/**/*_macos-aarch64.*
+            artifacts/**/*_linux-x86_64.*
+            artifacts/**/*_linux-aarch64.*

@@ -49,7 +49,18 @@ jobs:
       - name: Build target
         run: cargo build --release --target ${{ matrix.platform.target }}
 
-      - name: Rename output files
+      - name: Rename output files (Windows)
+        if: matrix.platform.runner == 'windows-latest'
+        shell: pwsh
+        run: |
+          cd target/${{ matrix.platform.target }}/release/
+          Get-ChildItem -Filter "*.${{ matrix.platform.ext }}" | ForEach-Object {
+            $newName = $_.BaseName + "_${{ matrix.platform.label }}" + $_.Extension
+            Rename-Item $_.Name $newName
+          }
+
+      - name: Rename output files (Unix)
+        if: matrix.platform.runner != 'windows-latest'
         run: |
           cd target/${{ matrix.platform.target }}/release/
           for file in *.${{ matrix.platform.ext }}; do

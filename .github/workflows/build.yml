@@ -20,8 +20,41 @@ env:
   CARGO_NET_GIT_FETCH_WITH_CLI: true
 
 jobs:
+  generate_version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          
+      - name: Get version from Cargo.toml
+        id: cargo_version
+        run: |
+          VERSION=$(grep '^version' Cargo.toml | head -1 | awk -F '"' '{print $2}')
+          echo "cargo_version=$VERSION" >> $GITHUB_OUTPUT
+          
+      - name: Generate build version
+        id: version
+        run: |
+          # 获取提交次数用于构建号
+          BUILD_NUMBER=$(git rev-list --count HEAD)
+          CARGO_VERSION="${{ steps.cargo_version.outputs.cargo_version }}"
+          
+          # 生成完整版本号 (例如: 1.0.0+123)
+          FULL_VERSION="${CARGO_VERSION}+${BUILD_NUMBER}"
+          echo "version=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v$FULL_VERSION" >> $GITHUB_OUTPUT
+          
+          echo "Generated version: $FULL_VERSION"
+          echo "Generated tag: v$FULL_VERSION"
+
   build:
     runs-on: ${{ matrix.platform.runner }}
+    needs: generate_version
     strategy:
       matrix:
         platform:
@@ -55,7 +88,7 @@ jobs:
         run: |
           cd target/${{ matrix.platform.target }}/release/
           Get-ChildItem -Filter "*.${{ matrix.platform.ext }}" | ForEach-Object {
-            $newName = $_.BaseName + "_${{ matrix.platform.label }}" + $_.Extension
+            $newName = "meme_emoji_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}" + $_.Extension
             Rename-Item $_.Name $newName
           }
 
@@ -65,20 +98,24 @@ jobs:
           cd target/${{ matrix.platform.target }}/release/
           for file in *.${{ matrix.platform.ext }}; do
             if [ -f "$file" ]; then
-              new_name="${file%.*}_${{ matrix.platform.label }}.${file##*.}"
+              # 移除 lib 前缀并添加版本信息
+              base_name="${file#lib}"
+              base_name_no_ext="${base_name%.*}"
+              new_name="${base_name_no_ext}_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}.${file##*.}"
               mv "$file" "$new_name"
             fi
           done
 
       - uses: actions/upload-artifact@v4
         with:
-          name: "meme_emoji_${{ matrix.platform.label }}"
+          name: "meme_emoji_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}"
           path: |
-            target/${{ matrix.platform.target }}/release/*_${{ matrix.platform.label }}.*
+            target/${{ matrix.platform.target }}/release/*_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}.*
 
   build_linux:
     runs-on: ${{ matrix.platform.runner }}
     container: ${{ matrix.platform.container }}
+    needs: generate_version
     strategy:
       matrix:
         platform:
@@ -109,20 +146,23 @@ jobs:
           cd target/${{ matrix.platform.target }}/release/
           for file in *.${{ matrix.platform.ext }}; do
             if [ -f "$file" ]; then
-              new_name="${file%.*}_${{ matrix.platform.label }}.${file##*.}"
+              # 移除 lib 前缀并添加版本信息
+              base_name="${file#lib}"
+              base_name_no_ext="${base_name%.*}"
+              new_name="${base_name_no_ext}_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}.${file##*.}"
               mv "$file" "$new_name"
             fi
           done
 
       - uses: actions/upload-artifact@v4
         with:
-          name: "meme_emoji_${{ matrix.platform.label }}"
+          name: "meme_emoji_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}"
           path: |
-            target/${{ matrix.platform.target }}/release/*_${{ matrix.platform.label }}.*
+            target/${{ matrix.platform.target }}/release/*_${{ matrix.platform.label }}_${{ needs.generate_version.outputs.version }}.*
 
   release:
     name: Create Release
-    needs: [build, build_linux]
+    needs: [generate_version, build, build_linux]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     
@@ -141,14 +181,14 @@ jobs:
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: build-${{ github.sha }}
-          name: Build ${{ github.sha }}
+          tag_name: ${{ needs.generate_version.outputs.tag }}
+          name: Release ${{ needs.generate_version.outputs.version }}
           draft: false
           prerelease: false
           generate_release_notes: true
           files: |
-            artifacts/**/*_windows-x86_64.*
-            artifacts/**/*_macos-x86_64.*
-            artifacts/**/*_macos-aarch64.*
-            artifacts/**/*_linux-x86_64.*
-            artifacts/**/*_linux-aarch64.*
+            artifacts/**/*_windows-x86_64_${{ needs.generate_version.outputs.version }}.*
+            artifacts/**/*_macos-x86_64_${{ needs.generate_version.outputs.version }}.*
+            artifacts/**/*_macos-aarch64_${{ needs.generate_version.outputs.version }}.*
+            artifacts/**/*_linux-x86_64_${{ needs.generate_version.outputs.version }}.*
+            artifacts/**/*_linux-aarch64_${{ needs.generate_version.outputs.version }}.*

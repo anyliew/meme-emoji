@@ -12,27 +12,27 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-const DEFAULT_TEXT: &str = "我才不要在这种时候放弃,即使当不成中忍,我也会通过其他的途径成为火影的,这就是我的忍道";
+const DEFAULT_TEXT: &str = "嗯哼，太阳出来我晒太阳，月亮出来我晒月亮嘞";
 
-fn naruro_uzumaki_naruto_holdsign(
+fn mihoyo_hutao_holdsign(
     _: Vec<InputImage>,
     texts: Vec<String>,
     _: NoOptions,
 ) -> Result<Vec<u8>, Error> {
     let text = if !texts.is_empty() { &texts[0] } else { DEFAULT_TEXT };
-    let frame = load_image("naruro_uzumaki_naruto_holdsign/0.jpg")?;
+    let frame = load_image("mihoyo_hutao_holdsign/0.jpg")?;
     let mut surface = frame.to_surface();
     let canvas = surface.canvas();
     
     canvas.draw_text_area_auto_font_size(
-        IRect::from_ltrb(281, 591, 858, 1001),
+        IRect::from_ltrb(196, 736, 739, 943),
         text,
         30.0,  // min_fontsize
         120.0, // max_fontsize
         text_params!(
             font_families = &["FZShaoEr-M11S"],
-            text_align = TextAlign::Left,  // 左对齐
-            paint = new_paint(Color::from_rgb(72, 44, 41)), // 颜色 #482c29
+            text_align = TextAlign::Center,
+            paint = new_paint(Color::from_rgb(0, 0, 0)),
         ),
     )?;
 
@@ -40,12 +40,12 @@ fn naruro_uzumaki_naruto_holdsign(
 }
 
 register_meme!(
-    "naruro_uzumaki_naruto_holdsign",
-    naruro_uzumaki_naruto_holdsign,
+    "mihoyo_hutao_holdsign",
+    mihoyo_hutao_holdsign,
     min_texts = 1,
     max_texts = 1,
     default_texts = &[DEFAULT_TEXT],
-    keywords = &["鸣人举牌", "漩涡鸣人举牌"],
-    date_created = local_date(2025, 6, 14),
-    date_modified = local_date(2025, 6, 14),
+    keywords = &["胡桃举牌"],
+    date_created = local_date(2025, 7, 1),
+    date_modified = local_date(2025, 7, 1),
 );

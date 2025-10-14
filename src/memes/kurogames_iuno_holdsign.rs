@@ -69,6 +69,6 @@ register_meme!(
     max_texts = 1,
     default_texts = &[DEFAULT_TEXT],
     keywords = &["尤诺举牌"],
-    date_created = local_date(2025, 8, 3),
-    date_modified = local_date(2025, 8, 3),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

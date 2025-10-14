@@ -44,6 +44,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["茉莉奶绿"],
-    date_created = local_date(2025, 6, 20),
-    date_modified = local_date(2025, 6, 20),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

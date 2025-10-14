@@ -41,6 +41,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["达达利亚相框", "阿贾克斯相框", "公子相框"],
-    date_created = local_date(2025, 6, 1),
-    date_modified = local_date(2025, 6, 1),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

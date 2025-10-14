@@ -56,6 +56,6 @@ register_meme!(
     min_images = 1,
     max_images = 1,
     keywords = &["最爱", "doro最爱", "Doro最爱", "DORO最爱", "桃乐丝最爱"],
-    date_created = local_date(2025, 7, 7),
-    date_modified = local_date(2025, 7, 7),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

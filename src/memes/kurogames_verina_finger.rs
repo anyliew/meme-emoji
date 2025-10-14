@@ -62,6 +62,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["维里奈指", "小维指"],
-    date_created = local_date(2025, 7, 7),
-    date_modified = local_date(2025, 7, 7),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

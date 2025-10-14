@@ -40,6 +40,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["什么东西"],
-    date_created = local_date(2025, 7, 16),
-    date_modified = local_date(2025, 7, 16),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

@@ -45,6 +45,6 @@ register_meme!(
     max_texts = 1,
     default_texts = &[DEFAULT_TEXT],
     keywords = &["阿布写信"],
-    date_created = local_date(2025, 7, 4),
-    date_modified = local_date(2025, 7, 4),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

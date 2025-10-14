@@ -62,6 +62,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["yes", "Yes", "YES"],
-    date_created = local_date(2025, 8, 19),
-    date_modified = local_date(2025, 8, 19),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

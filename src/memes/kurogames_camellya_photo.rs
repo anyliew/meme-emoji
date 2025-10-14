@@ -42,6 +42,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["大傻椿照片", "傻椿照片"],
-    date_created = local_date(2025, 7, 4),
-    date_modified = local_date(2025, 7, 4),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

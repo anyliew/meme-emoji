@@ -40,6 +40,6 @@ register_meme!(
     min_images = 2,
     max_images = 2,
     keywords = &["ly01", "ly-1", "LY-1"],
-    date_created = local_date(2025, 9, 4),
-    date_modified = local_date(2025, 9, 21),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

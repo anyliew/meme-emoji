@@ -41,6 +41,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["芙芙指", "芙宁娜指", "芙芙酱指"],
-    date_created = local_date(2025, 5, 25),
-    date_modified = local_date(2025, 5, 25),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

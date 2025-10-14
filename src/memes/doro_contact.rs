@@ -62,6 +62,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["交往", "doro交往", "Doro交往", "DORO交往", "桃乐丝交往"],
-    date_created = local_date(2025, 7, 7),
-    date_modified = local_date(2025, 7, 7),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

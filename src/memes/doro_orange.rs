@@ -62,6 +62,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["欧润吉", "润吉", "润橘", "橘子", "橘", "🍊"],
-    date_created = local_date(2025, 7, 7),
-    date_modified = local_date(2025, 7, 7),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

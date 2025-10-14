@@ -39,6 +39,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["ciallo", "ciallo~"],
-    date_created = local_date(2025, 9, 5),
-    date_modified = local_date(2025, 9, 25),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

@@ -41,6 +41,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["卡维相框"],
-    date_created = local_date(2025, 6, 1),
-    date_modified = local_date(2025, 6, 1),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

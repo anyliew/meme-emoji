@@ -62,6 +62,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["付费观看"],
-    date_created = local_date(2025, 7, 2),
-    date_modified = local_date(2025, 7, 2),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

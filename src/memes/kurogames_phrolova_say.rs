@@ -46,6 +46,6 @@ register_meme!(
     max_texts = 1,
     default_texts = &[DEFAULT_TEXT],
     keywords = &["弗洛洛说"],
-    date_created = local_date(2025, 6, 13),
-    date_modified = local_date(2025, 6, 13),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

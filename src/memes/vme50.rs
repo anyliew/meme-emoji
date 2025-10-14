@@ -63,6 +63,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 1,
     keywords = &["V我50", "v我50"],
-    date_created = local_date(2025, 7, 11),
-    date_modified = local_date(2025, 7, 11),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

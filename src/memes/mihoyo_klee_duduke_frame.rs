@@ -41,6 +41,6 @@ register_meme!(
     min_texts = 0,
     max_texts = 0,
     keywords = &["可莉嘟嘟可相框", "嘟嘟可"],
-    date_created = local_date(2025, 6, 1),
-    date_modified = local_date(2025, 6, 1),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

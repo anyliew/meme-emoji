@@ -46,6 +46,6 @@ register_meme!(
     max_texts = 1,
     default_texts = &[DEFAULT_TEXT],
     keywords = &["鸣人举牌", "漩涡鸣人举牌"],
-    date_created = local_date(2025, 6, 14),
-    date_modified = local_date(2025, 6, 14),
+    date_created = local_date(2025, 10, 6),
+    date_modified = local_date(2025, 10, 6),
 );

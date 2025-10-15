@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn qixi_festival(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn qixi_festival(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("qixi_festival/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("农历七月初七 新历8月29日 20:00 \n{name}和派蒙在原神官方直播间过七夕");
 
@@ -60,8 +56,6 @@ register_meme!(
     qixi_festival,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["七夕和谁过", "七夕和谁过?", "七夕和谁过？"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

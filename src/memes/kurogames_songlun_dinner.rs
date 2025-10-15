@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn kurogames_songlun_dinner(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn kurogames_songlun_dinner(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("kurogames_songlun_dinner/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("{name}:松伦哥\n松伦:{name}\n{name}:今天很开心和你共进晚餐\n松伦:我也很开心和{name}一起享用麦当劳双人套餐");
 
@@ -61,8 +57,6 @@ register_meme!(
     kurogames_songlun_dinner,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["松伦晚餐", "松伦哥晚餐"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

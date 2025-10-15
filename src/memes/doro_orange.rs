@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn doro_orange(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn doro_orange(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("doro_orange/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("桃乐丝:和{name}一起品尝欧润吉真是一种享受\n \n{name}:欧润吉真好吃");
 
@@ -58,9 +54,7 @@ register_meme!(
     "doro_orange",
     doro_orange,
     min_images = 1,
-    max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
+    max_images = 1, 
     keywords = &["欧润吉", "润吉", "润橘", "橘子", "橘", "🍊"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

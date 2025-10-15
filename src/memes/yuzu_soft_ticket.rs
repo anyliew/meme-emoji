@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn yuzu_soft_ticket(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn yuzu_soft_ticket(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("yuzu_soft_ticket/0.png")?;
     
-    let ta = "柚子厨";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("{name}");
 
@@ -44,7 +40,7 @@ fn yuzu_soft_ticket(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -
             text_params!(
                 font_families = &["FZShaoEr-M11S"],
                 text_align = TextAlign::Center,
-                paint = new_paint(Color::from_rgb(255, 255, 255))
+                paint = new_paint(Color::from_rgb(0, 0, 0))
             ),
         )?;
         
@@ -59,8 +55,6 @@ register_meme!(
     yuzu_soft_ticket,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["准考证"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

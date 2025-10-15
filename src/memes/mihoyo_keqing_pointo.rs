@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn mihoyo_keqing_pointo(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn mihoyo_keqing_pointo(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("mihoyo_keqing_pointo/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("此人「{name}」\n\n拥有我的六个命座\n\n已经是满命了");
 
@@ -59,8 +55,6 @@ register_meme!(
     mihoyo_keqing_pointo,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["刻晴指"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn widow(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn widow(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("widow/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("祭祀者:安心去吧,{name}桑[さん]\n你最❤️愛の妻子[未亡人]我会好好照顾的\n{name}你去了冥界也要保佑我们");
 
@@ -61,8 +57,6 @@ register_meme!(
     widow,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["未亡人"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

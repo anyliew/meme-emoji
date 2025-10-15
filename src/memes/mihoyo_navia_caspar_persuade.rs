@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn mihoyo_navia_caspar_persuade(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn mihoyo_navia_caspar_persuade(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("mihoyo_navia_caspar_persuade/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("我可以对{name} \n 使用『说服』吗?");
 
@@ -59,8 +55,6 @@ register_meme!(
     mihoyo_navia_caspar_persuade,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["说服"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

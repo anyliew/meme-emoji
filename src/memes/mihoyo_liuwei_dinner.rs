@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn mihoyo_liuwei_dinner(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn mihoyo_liuwei_dinner(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("mihoyo_liuwei_dinner/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("{name}:大伟哥\n刘伟:{name}\n{name}:今天很开心和你共进晚餐\n刘伟:我也很开心和{name}一起享用麦当劳双人套餐");
 
@@ -61,8 +57,6 @@ register_meme!(
     mihoyo_liuwei_dinner,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["刘伟晚餐", "共进晚餐", "大伟哥晚餐"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

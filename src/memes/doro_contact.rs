@@ -12,14 +12,10 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn doro_contact(images: Vec<InputImage>, texts: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn doro_contact(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let frame = load_image("doro_contact/0.png")?;
     
-    let ta = "他";
-    let mut name = ta.to_string();
-    if !texts.is_empty() {
-        name = texts[0].clone();
-    }
+    let name = &images[0].name;
     
     let text = format!("桃乐丝:{name}同学,这是你的头像照片吗？\n桃乐丝:你长得好帅呀\n桃乐丝:{name},你愿意和我交往在一起吗？\n{name}:我愿意,我愿意\n{name}:桃乐丝,我{name}愿意和你在一起一生一世");
 
@@ -59,8 +55,6 @@ register_meme!(
     doro_contact,
     min_images = 1,
     max_images = 1,
-    min_texts = 0,
-    max_texts = 1,
     keywords = &["交往", "doro交往", "Doro交往", "DORO交往", "桃乐丝交往"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),

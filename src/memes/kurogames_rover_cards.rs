@@ -12,24 +12,30 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn azur_lane_cheshire_thumbs_up(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
+fn kurogames_rover_cards(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     let name = &images[0].name;
-    let text = format!("{name},你真是一个大聪明\n柴郡为你点个赞👍🏻");
-    let frame = load_image("azur_lane_cheshire_thumbs_up/0.jpg")?;
+    let text = format!("{name} 出来战斗吧");
+    let frame = load_image("kurogames_rover_cards/0.png")?;
 
     let func = |images: Vec<Image>| {
-        // 创建新的surface，先绘制frame作为最底层
+        // 创建新的surface，先绘制用户图片作为最底层
         let mut surface = frame.to_surface();
         let canvas = surface.canvas();
         
-        // 先绘制frame作为最底层
+        // 先绘制用户图片作为最底层
+        let img = images[0]
+            .resize_bound((80, 80), Fit::Cover)
+            .rotate(-30.0);
+        canvas.draw_image(&img, (417, 247), None);
+        
+        // 然后绘制frame作为中层（覆盖在用户图片之上）
         canvas.draw_image(&frame, (0, 0), None);
         
-        // 然后绘制文字作为中层
+        // 最后绘制文字作为最上层
         canvas.draw_text_area_auto_font_size(
-            IRect::from_ltrb(207, 1, 739, 150),
+            IRect::from_ltrb(0, 0, 960, 185),
             &text,
-            15.0,
+            20.0,
             100.0,
             text_params!(
                 font_families = &["FZXS14"],
@@ -38,10 +44,6 @@ fn azur_lane_cheshire_thumbs_up(images: Vec<InputImage>, _: Vec<String>, _: NoOp
             ),
         )?;
         
-        // 最后绘制用户图片作为最上层
-        let img = images[0].circle().resize_bound((230, 230), Fit::Cover);
-        canvas.draw_image(&img, (30, 120), None);
-        
         Ok(surface.image_snapshot())
     };
 
@@ -49,11 +51,11 @@ fn azur_lane_cheshire_thumbs_up(images: Vec<InputImage>, _: Vec<String>, _: NoOp
 }
 
 register_meme!(
-    "azur_lane_cheshire_thumbs_up",
-    azur_lane_cheshire_thumbs_up,
+    "kurogames_rover_cards",
+    kurogames_rover_cards,
     min_images = 1,
     max_images = 1,
-    keywords = &["柴郡点赞","柴郡猫点赞"],
+    keywords = &["荣耀之丘"],
     date_created = local_date(2025, 10, 6),
     date_modified = local_date(2025, 10, 6),
 );

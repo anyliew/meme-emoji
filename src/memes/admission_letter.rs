@@ -12,23 +12,21 @@ use meme_generator_utils::{
 
 use crate::{options::NoOptions, register_meme};
 
-fn deer_plan(
-    images: Vec<InputImage>,
-    _: Vec<String>,
+const DEFAULT_TEXT: &str = "KaedeharaLu";
+fn admission_letter(
+    _: Vec<InputImage>,
+    texts: Vec<String>,
     _: NoOptions,
 ) -> Result<Vec<u8>, Error> {
-    let name = &images[0].name;
-    let text = format!("{}の鹿管计划", name);
-    let frame = load_image("deer_plan/0.png")?;
+    let text = if !texts.is_empty() { &texts[0] } else { DEFAULT_TEXT };
+    let frame = load_image("admission_letter/0.png")?;
     let mut surface = frame.to_surface();
     let canvas = surface.canvas();
-    
-    // 先绘制文字
     canvas.draw_text_area_auto_font_size(
-        IRect::from_ltrb(160, 18, 1041, 118),
-        &text,
+        IRect::from_ltrb(101, 195, 300, 213),
+        text,
         10.0,
-        70.0,
+        50.0,
         text_params!(
             font_families = &["FZXS14"],
             text_align = TextAlign::Left,
@@ -36,19 +34,16 @@ fn deer_plan(
         ),
     )?;
 
-    // 然后在同一个 canvas 上绘制图片
-    let img = images[0].image.circle().resize_exact((100, 100));
-    canvas.draw_image(&img, (35, 18), None);
-    
     encode_png(surface.image_snapshot())
 }
 
 register_meme!(
-    "deer_plan",
-    deer_plan,
-    min_images = 1,
-    max_images = 1,
-    keywords = &["鹿管计划"],
-    date_created = local_date(2024, 7, 26),
-    date_modified = local_date(2024, 7, 26),
+    "admission_letter",
+    admission_letter,
+    min_texts = 1,
+    max_texts = 1,
+    default_texts = &[DEFAULT_TEXT],
+    keywords = &["录取通知书"],
+    date_created = local_date(2025, 5, 17),
+    date_modified = local_date(2025, 5, 17),
 );

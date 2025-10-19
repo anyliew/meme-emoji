@@ -95,7 +95,7 @@ register_meme! {
     shamate,             // 处理函数
     min_images = 1,        // 最少需要1张输入图片
     max_images = 1,        // 最多支持1张输入图片
-    keywords = &["shamate"], // 搜索关键词
+    keywords = &["杀马特"], // 搜索关键词
     date_created = local_date(2025, 10, 6), 
     date_modified = local_date(2025, 10, 6),
 }

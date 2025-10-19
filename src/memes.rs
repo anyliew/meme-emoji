@@ -220,6 +220,7 @@ mod read_love_letters;
 mod rune;
 mod scissor_seven_head;
 mod sending_love;
+mod shamate;
 mod shikanoko_noko;
 mod shipborne_laser_weapons;
 mod shuai;

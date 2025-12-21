@@ -1,7 +1,7 @@
 [package]
 name = "meme_emoji"
 description = "meme_emoji_rust"
-version = "0.0.3"
+version = "0.0.5"
 authors = ["Anyliew <anyliew@outlook.com>"]
 license = "MIT"
 readme = "README.md"

@@ -12,6 +12,7 @@ mod baby;
 mod beg_foster_care;
 mod begged_me;
 mod beloveds;
+mod bird_lgnoring;
 mod bonfire_dance;
 mod capoo_fished_out;
 mod capoo_smash_egg;

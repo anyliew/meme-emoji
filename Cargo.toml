@@ -1,12 +1,12 @@
 [package]
-name = "meme_emoji"
-description = "meme_emoji_rust"
-version = "0.0.5"
+name = "meme-emoji"
+description = "meme-emoji"
+version = "0.0.6"
 authors = ["Anyliew <anyliew@outlook.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/anyliew/meme_emoji_rust"
-repository = "https://github.com/anyliew/meme_emoji_rust"
+homepage = "https://github.com/anyliew/meme-emoji"
+repository = "https://github.com/anyliew/meme-emoji"
 edition = "2024"
 
 [lib]

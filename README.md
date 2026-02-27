@@ -1,7 +1,7 @@
 <div align="center">
 <img src="./docs/picture/logo.png" width=200 />
 
-# meme_emoji_rust
+# meme-emoji
 
 <p align="center">
   <img src="https://img.shields.io/github/license/MemeCrafters/meme-generator-rs" alt="license">
@@ -15,13 +15,11 @@
 </p>
 </div>
 
-## meme_emoji_rust_rust 表情包扩展仓库 
+## meme-emoji 表情包扩展仓库 
 
 *🚀* 基于 [meme-generator-rs](https://github.com/MemeCrafters/meme-generator-rs) 做的表情包扩展仓库~
 
 *✨* 为你的聊天机器人添加更多趣味表情生成！
-
-
 
 
 ## ✨特性
@@ -32,7 +30,7 @@
 
 - ✨**搭配演示架构图所示(仅供参考)：**
 
-<img src="./docs/picture/meme_emoji_rust.jpg" alt="架构图" style="zoom:30%;" />
+<img src="./docs/picture/meme-emoji.jpg" alt="架构图" style="zoom:30%;" />
 
 ## 🤠 表情示例
 
@@ -48,26 +46,28 @@
 
 #### 😉 名称排序  A-Z
 
-* [表情列表](https://github.com/anyliew/meme_emoji_rust/wiki/%E8%A1%A8%E6%83%85%E5%88%97%E8%A1%A8)
+* [表情列表](https://github.com/anyliew/meme-emoji/wiki/%E8%A1%A8%E6%83%85%E5%88%97%E8%A1%A8)
 
 ## 📄 使用教程 
 
-可在 [Actions](https://github.com/anyliew/meme_emoji_rust/actions/workflows/build.yml) 中下载编译好的动态链接库，并参考 [`meme-generator-rs` 加载其他表情的方式](https://github.com/MemeCrafters/meme-generator-rs/wiki/%E5%8A%A0%E8%BD%BD%E5%85%B6%E4%BB%96%E8%A1%A8%E6%83%85) 进行加载
+可在 [releases](https://github.com/anyliew/meme-emoji/releases) 或者 [Actions](https://github.com/anyliew/meme-emoji/actions/workflows/build.yml) 中下载编译好的动态链接库
+
+并参考 [`meme-generator-rs` 加载其他表情的方式](https://github.com/MemeCrafters/meme-generator-rs/wiki/%E5%8A%A0%E8%BD%BD%E5%85%B6%E4%BB%96%E8%A1%A8%E6%83%85) 进行加载
 
 
 - [meme-generator-rs wiki](https://github.com/MemeCrafters/meme-generator-rs/wiki) 
-- [meme_emoji_rust wiki](https://github.com/anyliew/meme_emoji_rust_rust/wiki) 
+- [meme-emoji wiki](https://github.com/anyliew/meme-emoji/wiki) 
 
 
 ## ⚖ 许可证
 
-> MIT License https://github.com/anyliew/meme_emoji_rust/blob/main/LICENSE
+> MIT License https://github.com/anyliew/meme-emoji/blob/main/LICENSE
 
 ## 📝 反馈
 
 ### 🤔 issues
 
-> issues https://github.com/anyliew/meme_emoji_rust_rust/issues 
+> issues https://github.com/anyliew/meme-emoji/issues 
 
 单个表情有问题反馈请附带日志和截图
 答复受限网络没那么快及时处理
@@ -94,12 +94,15 @@
 
 ### wiki 文档
 - [meme-generator-rs wiki](https://github.com/MemeCrafters/meme-generator-rs/wiki)
-- [meme_emoji_rust wiki](https://github.com/anyliew/meme_emoji_rust/wiki)
+- [meme-emoji wiki](https://github.com/anyliew/meme-emoji/wiki)
+
+## ⭐ 支持本项目
+
+如果你觉得本项目对你有帮助，请给本项目点一个star⭐
 
 
-## 📌 免责声明
+## 💬 免责声明
 
-- 本仓库的表情素材等均来自网络，非商用
-- 如有侵权请通过issues联系作者删除
+- 本项目仅供学习和交流使用，禁止用于任何商业用途及违法用途。
 
- 
+- 项目中的图片等资源均来自互联网，如有侵权请及时联系开发者，我们会尽快处理删除相关内容。

@@ -24,5 +24,7 @@ head.jpg
 inages_output/
 temp/
 update_rust_dates.py
-meme_emoji_rust.eddx
+meme-emoji.eddxs
+build-meme.bat
+force_copy_images.bat
 generate_mods.py

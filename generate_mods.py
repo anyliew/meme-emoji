@@ -3,8 +3,8 @@ import glob
 
 def generate_mod_file():
     # 配置路径
-    source_dir = r"D:\meme_rust\meme_emoji_rust\src\memes"
-    output_file = r"D:\meme_rust\meme_emoji_rust\src\memes.rs"
+    source_dir = r"D:\meme_rust\meme-emoji\src\memes"
+    output_file = r"D:\meme_rust\meme-emoji\src\memes.rs"
     
     # 检查源目录是否存在
     if not os.path.exists(source_dir):

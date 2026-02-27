@@ -36,21 +36,25 @@ jobs:
         run: |
           VERSION=$(grep '^version' Cargo.toml | head -1 | awk -F '"' '{print $2}')
           echo "cargo_version=$VERSION" >> $GITHUB_OUTPUT
+          echo "📦 Found Cargo version: $VERSION"
           
-      - name: Generate build version
+      - name: Generate build version with metadata
         id: version
         run: |
           # 获取提交次数用于构建号
           BUILD_NUMBER=$(git rev-list --count HEAD)
           CARGO_VERSION="${{ steps.cargo_version.outputs.cargo_version }}"
           
-          # 生成完整版本号 (例如: 1.0.0.123)
-          FULL_VERSION="${CARGO_VERSION}.${BUILD_NUMBER}"
-          echo "version=$FULL_VERSION" >> $GITHUB_OUTPUT
-          echo "tag=v$FULL_VERSION" >> $GITHUB_OUTPUT
+          # 方案1：使用 +build. 作为元数据 (符合 SemVer 规范)
+          FULL_VERSION="${CARGO_VERSION}+build.${BUILD_NUMBER}"
           
-          echo "Generated version: $FULL_VERSION"
-          echo "Generated tag: v$FULL_VERSION"
+          echo "version=$FULL_VERSION" >> $GITHUB_OUTPUT
+          echo "tag=v${FULL_VERSION}" >> $GITHUB_OUTPUT
+          
+          echo "📦 Cargo.toml version: $CARGO_VERSION"
+          echo "🔢 Git commit count: $BUILD_NUMBER"
+          echo "✨ Generated version: $FULL_VERSION"
+          echo "🏷️ Generated tag: v$FULL_VERSION"
 
   build:
     runs-on: ${{ matrix.platform.runner }}
@@ -88,8 +92,10 @@ jobs:
         run: |
           cd target/${{ matrix.platform.target }}/release/
           Get-ChildItem -Filter "*.${{ matrix.platform.ext }}" | ForEach-Object {
-            $newName = "meme_emoji_${{ matrix.platform.label }}" + $_.Extension
+            # 使用连字符风格
+            $newName = "meme-emoji-${{ matrix.platform.label }}" + $_.Extension
             Rename-Item $_.Name $newName
+            Write-Host "Renamed to: $newName"
           }
 
       - name: Rename output files (Unix)
@@ -98,18 +104,20 @@ jobs:
           cd target/${{ matrix.platform.target }}/release/
           for file in *.${{ matrix.platform.ext }}; do
             if [ -f "$file" ]; then
-              # 移除 lib 前缀
+              # 移除 lib 前缀，使用连字符风格
               base_name="${file#lib}"
-              new_name="meme_emoji_${{ matrix.platform.label }}.${file##*.}"
+              new_name="meme-emoji-${{ matrix.platform.label }}.${file##*.}"
               mv "$file" "$new_name"
+              echo "Renamed to: $new_name"
             fi
           done
 
       - uses: actions/upload-artifact@v4
         with:
-          name: "meme_emoji_${{ matrix.platform.label }}"
+          # 使用连字符风格的 artifact 名称
+          name: "meme-emoji-${{ matrix.platform.label }}"
           path: |
-            target/${{ matrix.platform.target }}/release/meme_emoji_${{ matrix.platform.label }}.*
+            target/${{ matrix.platform.target }}/release/meme-emoji-${{ matrix.platform.label }}.*
 
   build_linux:
     runs-on: ${{ matrix.platform.runner }}
@@ -145,24 +153,29 @@ jobs:
           cd target/${{ matrix.platform.target }}/release/
           for file in *.${{ matrix.platform.ext }}; do
             if [ -f "$file" ]; then
-              # 移除 lib 前缀
+              # 移除 lib 前缀，使用连字符风格
               base_name="${file#lib}"
-              new_name="meme_emoji_${{ matrix.platform.label }}.${file##*.}"
+              new_name="meme-emoji-${{ matrix.platform.label }}.${file##*.}"
               mv "$file" "$new_name"
+              echo "Renamed to: $new_name"
             fi
           done
 
       - uses: actions/upload-artifact@v4
         with:
-          name: "meme_emoji_${{ matrix.platform.label }}"
+          # 使用连字符风格的 artifact 名称
+          name: "meme-emoji-${{ matrix.platform.label }}"
           path: |
-            target/${{ matrix.platform.target }}/release/meme_emoji_${{ matrix.platform.label }}.*
+            target/${{ matrix.platform.target }}/release/meme-emoji-${{ matrix.platform.label }}.*
 
   release:
     name: Create Release
     needs: [generate_version, build, build_linux]
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    # 允许 push 到 main 或手动触发时创建 Release
+    if: |
+      (github.event_name == 'push' && github.ref == 'refs/heads/main') ||
+      github.event_name == 'workflow_dispatch'
     
     permissions:
       contents: write
@@ -174,19 +187,51 @@ jobs:
           path: artifacts
           
       - name: List all downloaded files
-        run: find artifacts -type f -name "*" | sort
+        run: |
+          echo "📂 Downloaded artifacts:"
+          find artifacts -type f -name "*" | sort
+          
+      - name: Display version info
+        run: |
+          echo "🎯 Creating release with:"
+          echo "   Version: ${{ needs.generate_version.outputs.version }}"
+          echo "   Tag: ${{ needs.generate_version.outputs.tag }}"
         
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ needs.generate_version.outputs.tag }}
           name: Release ${{ needs.generate_version.outputs.version }}
+          body: |
+            ## 🚀 构建信息
+            - **版本**: `${{ needs.generate_version.outputs.version }}`
+            - **Cargo 版本**: `${{ fromJSON(needs.generate_version.outputs.version).pre }}` 解析可能有问题，这里简化处理
+            
+            这是一个自动构建的 Release，包含以下平台的动态库：
+            - 🪟 Windows (x86_64)
+            - 🍎 macOS (Intel)
+            - 🍏 macOS (Apple Silicon)
+            - 🐧 Linux (x86_64)
+            - 🐧 Linux (ARM64)
+            
+            ## 📦 文件列表
+            - `meme-emoji-windows-x86_64.dll` - Windows 动态链接库
+            - `meme-emoji-macos-x86_64.dylib` - macOS Intel 动态库
+            - `meme-emoji-macos-aarch64.dylib` - macOS Apple Silicon 动态库
+            - `meme-emoji-linux-x86_64.so` - Linux x86_64 动态库
+            - `meme-emoji-linux-aarch64.so` - Linux ARM64 动态库
+            
+            ## 🔍 版本说明
+            版本号格式: `{Cargo版本}+build.{构建号}`
+            - 构建号基于 Git 提交次数自动生成
+            - 符合语义化版本规范 (SemVer)
           draft: false
           prerelease: false
           generate_release_notes: true
+          # 使用连字符风格的匹配模式
           files: |
-            artifacts/**/meme_emoji_windows-x86_64.*
-            artifacts/**/meme_emoji_macos-x86_64.*
-            artifacts/**/meme_emoji_macos-aarch64.*
-            artifacts/**/meme_emoji_linux-x86_64.*
-            artifacts/**/meme_emoji_linux-aarch64.*
+            artifacts/**/meme-emoji-windows-x86_64.*
+            artifacts/**/meme-emoji-macos-x86_64.*
+            artifacts/**/meme-emoji-macos-aarch64.*
+            artifacts/**/meme-emoji-linux-x86_64.*
+            artifacts/**/meme-emoji-linux-aarch64.*

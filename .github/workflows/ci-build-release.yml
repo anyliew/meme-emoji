@@ -1,4 +1,4 @@
-name: CI Build Release 
+name: Build & Release
 
 on:
   push:
@@ -45,7 +45,7 @@ jobs:
           BUILD_NUMBER=$(git rev-list --count HEAD)
           CARGO_VERSION="${{ steps.cargo_version.outputs.cargo_version }}"
           
-          # 方案1：使用 +build. 作为元数据 (符合 SemVer 规范)
+          # 使用 +build. 作为元数据 (符合 SemVer 规范)
           FULL_VERSION="${CARGO_VERSION}+build.${BUILD_NUMBER}"
           
           echo "version=$FULL_VERSION" >> $GITHUB_OUTPUT
@@ -205,7 +205,6 @@ jobs:
           body: |
             ## 🚀 构建信息
             - **版本**: `${{ needs.generate_version.outputs.version }}`
-            - **Cargo 版本**: `${{ fromJSON(needs.generate_version.outputs.version).pre }}` 解析可能有问题，这里简化处理
             
             这是一个自动构建的 Release，包含以下平台的动态库：
             - 🪟 Windows (x86_64)

@@ -1,4 +1,4 @@
-use meme_generator_core::{declare_meme_pack, meme::Meme, registry::MemeRegistry};
+use meme_generator_core::{meme::Meme, registry::MemeRegistry};
 
 pub(crate) struct MemeDeclaration {
     pub name: &'static str,
@@ -37,4 +37,10 @@ extern "C" fn register_memes(registry: &mut dyn MemeRegistry) {
     }
 }
 
-declare_meme_pack!(register_memes);
+#[unsafe(no_mangle)]
+pub static MEME_PACK_DECLARATION: meme_generator_core::registry::MemePackDeclaration =
+    meme_generator_core::registry::MemePackDeclaration {
+        rustc_version: meme_generator_core::registry::RUSTC_VERSION,
+        core_version: meme_generator_core::registry::CORE_VERSION,
+        register: register_memes,
+    };

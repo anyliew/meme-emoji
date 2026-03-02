@@ -18,13 +18,12 @@ fn mihoyo_lce_slime_frame(images: Vec<InputImage>, _: Vec<String>, _: NoOptions)
         let canvas = surface.canvas();
         canvas.clear(Color::WHITE);
         
-        // 头像尺寸: 245x245，圆形裁剪
         let img = images[0]
-            .resize_fit((245, 245), Fit::Cover)
+            .resize_fit((434, 427), Fit::Cover)
             .circle();
         
-        // 绘制圆形头像，坐标(40, 38)
-        canvas.draw_image(&img, (40, 38), None);
+        // 绘制圆形头像，坐标(84, 83)
+        canvas.draw_image(&img, (84, 83), None);
         // 绘制框架
         canvas.draw_image(&frame, (0, 0), None);
         Ok(surface.image_snapshot())

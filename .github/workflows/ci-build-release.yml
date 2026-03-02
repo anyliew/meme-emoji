@@ -27,7 +27,7 @@ jobs:
       tag: ${{ steps.version.outputs.tag }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           fetch-depth: 0
           
@@ -76,8 +76,8 @@ jobs:
             ext: dylib
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.88.0
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
       - uses: swatinem/rust-cache@v2
 
       - name: Rustup add target
@@ -92,7 +92,6 @@ jobs:
         run: |
           cd target/${{ matrix.platform.target }}/release/
           Get-ChildItem -Filter "*.${{ matrix.platform.ext }}" | ForEach-Object {
-            # 使用连字符风格
             $newName = "meme-emoji-${{ matrix.platform.label }}" + $_.Extension
             Rename-Item $_.Name $newName
             Write-Host "Renamed to: $newName"
@@ -105,16 +104,14 @@ jobs:
           for file in *.${{ matrix.platform.ext }}; do
             if [ -f "$file" ]; then
               # 移除 lib 前缀，使用连字符风格
-              base_name="${file#lib}"
               new_name="meme-emoji-${{ matrix.platform.label }}.${file##*.}"
               mv "$file" "$new_name"
               echo "Renamed to: $new_name"
             fi
           done
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
-          # 使用连字符风格的 artifact 名称
           name: "meme-emoji-${{ matrix.platform.label }}"
           path: |
             target/${{ matrix.platform.target }}/release/meme-emoji-${{ matrix.platform.label }}.*
@@ -138,8 +135,8 @@ jobs:
             ext: so
 
     steps:
-      - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.88.0
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
       - uses: swatinem/rust-cache@v2
 
       - name: Rustup add target
@@ -154,23 +151,63 @@ jobs:
           for file in *.${{ matrix.platform.ext }}; do
             if [ -f "$file" ]; then
               # 移除 lib 前缀，使用连字符风格
-              base_name="${file#lib}"
               new_name="meme-emoji-${{ matrix.platform.label }}.${file##*.}"
               mv "$file" "$new_name"
               echo "Renamed to: $new_name"
             fi
           done
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
-          # 使用连字符风格的 artifact 名称
+          name: "meme-emoji-${{ matrix.platform.label }}"
+          path: |
+            target/${{ matrix.platform.target }}/release/meme-emoji-${{ matrix.platform.label }}.*
+
+  build_android:
+    runs-on: ${{ matrix.platform.runner }}
+    container: ${{ matrix.platform.container }}
+    needs: generate_version
+    strategy:
+      matrix:
+        platform:
+          - runner: ubuntu-latest
+            container: ghcr.io/memecrafters/meme-generator-build-container:android
+            target: aarch64-linux-android
+            label: android-aarch64
+            ext: so
+
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: swatinem/rust-cache@v2
+
+      - name: Rustup add target
+        run: rustup target add ${{ matrix.platform.target }}
+
+      - name: Build target
+        run: cargo build --release --target ${{ matrix.platform.target }}
+
+      - name: Rename output files
+        run: |
+          cd target/${{ matrix.platform.target }}/release/
+          for file in *.${{ matrix.platform.ext }}; do
+            if [ -f "$file" ]; then
+              # 移除 lib 前缀，使用连字符风格
+              new_name="meme-emoji-${{ matrix.platform.label }}.${file##*.}"
+              mv "$file" "$new_name"
+              echo "Renamed to: $new_name"
+            fi
+          done
+
+      - uses: actions/upload-artifact@v6
+        with:
           name: "meme-emoji-${{ matrix.platform.label }}"
           path: |
             target/${{ matrix.platform.target }}/release/meme-emoji-${{ matrix.platform.label }}.*
 
   release:
     name: Create Release
-    needs: [generate_version, build, build_linux]
+    needs: [generate_version, build, build_linux, build_android]
     runs-on: ubuntu-latest
     # 允许 push 到 main 或手动触发时创建 Release
     if: |
@@ -212,6 +249,7 @@ jobs:
             - 🍏 macOS (Apple Silicon)
             - 🐧 Linux (x86_64)
             - 🐧 Linux (ARM64)
+            - 📱 Android (ARM64)
             
             ## 📦 文件列表
             - `meme-emoji-windows-x86_64.dll` - Windows 动态链接库
@@ -219,6 +257,7 @@ jobs:
             - `meme-emoji-macos-aarch64.dylib` - macOS Apple Silicon 动态库
             - `meme-emoji-linux-x86_64.so` - Linux x86_64 动态库
             - `meme-emoji-linux-aarch64.so` - Linux ARM64 动态库
+            - `meme-emoji-android-aarch64.so` - Android ARM64 动态库
             
             ## 🔍 版本说明
             版本号格式: `{Cargo版本}+build.{构建号}`
@@ -227,10 +266,10 @@ jobs:
           draft: false
           prerelease: false
           generate_release_notes: true
-          # 使用连字符风格的匹配模式
           files: |
             artifacts/**/meme-emoji-windows-x86_64.*
             artifacts/**/meme-emoji-macos-x86_64.*
             artifacts/**/meme-emoji-macos-aarch64.*
             artifacts/**/meme-emoji-linux-x86_64.*
             artifacts/**/meme-emoji-linux-aarch64.*
+            artifacts/**/meme-emoji-android-aarch64.*

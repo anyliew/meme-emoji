@@ -5,45 +5,43 @@ use meme_generator_utils::{
     builder::InputImage,
     canvas::CanvasExt,
     encoder::make_png_or_gif,
-    image::{Fit, ImageExt},
+    image::ImageExt,
     text_params,
-    tools::{load_image, local_date, new_paint},
+    tools::{load_image, local_date, new_paint, new_surface},
 };
 
 use crate::{options::NoOptions, register_meme};
 
-fn yuzu_soft_ticket(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
-    let frame = load_image("yuzu_soft_ticket/0.png")?;
-    
+fn yuzu_soft_ticket(
+    images: Vec<InputImage>,
+    texts: Vec<String>,
+    _: NoOptions,
+) -> Result<Vec<u8>, Error> {
     let name = &images[0].name;
-    
-    let text = format!("{name}");
-
+    let text = if let Some(text) = texts.first() {
+        text
+    } else {
+        &name.clone()
+    };
     let func = |images: Vec<Image>| {
-        let mut surface = frame.to_surface();
+        let frame = load_image("yuzu_soft_ticket/0.png")?;
+        let user_head = images[0].resize_exact((300, 300));
+        let mut surface = new_surface(frame.dimensions());
         let canvas = surface.canvas();
-        
-        // 处理用户图片：调整尺寸（没有圆形裁剪）
-        let img = images[0]
-            .resize_fit((300, 300), Fit::Cover);
-        canvas.draw_image(&img, (72, 330), None);
-        
-        // 绘制frame
+        canvas.clear(Color::WHITE);
+        canvas.draw_image(&user_head, (72, 330), None);
         canvas.draw_image(&frame, (0, 0), None);
-        
-        // 绘制文字
         canvas.draw_text_area_auto_font_size(
-            IRect::from_ltrb(485, 544, 625, 583),
-            &text,
+            IRect::new(485, 544, 625, 583),
+            text,
             30.0,
             100.0,
             text_params!(
                 font_families = &["FZShaoEr-M11S"],
+                paint = new_paint(Color::BLACK),
                 text_align = TextAlign::Center,
-                paint = new_paint(Color::from_rgb(0, 0, 0))
             ),
         )?;
-        
         Ok(surface.image_snapshot())
     };
 
@@ -55,7 +53,9 @@ register_meme!(
     yuzu_soft_ticket,
     min_images = 1,
     max_images = 1,
+    min_texts = 0,
+    max_texts = 1,
     keywords = &["准考证"],
-    date_created = local_date(2025, 10, 6),
-    date_modified = local_date(2025, 10, 6),
+    date_created = local_date(2025, 6, 7),
+    date_modified = local_date(2025, 6, 7),
 );

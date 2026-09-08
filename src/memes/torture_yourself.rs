@@ -20,8 +20,8 @@ fn torture_yourself(
     let func = |images: Vec<Image>| {
         let mut surface = frame.to_surface();
         let canvas = surface.canvas();
-        let image1 = images[0].resize_fit((175, 175), Fit::Cover);
-        let image2 = images[1].resize_fit((380, 410), Fit::Cover);
+        let image1 = images[1].resize_fit((175, 175), Fit::Cover);
+        let image2 = images[0].resize_fit((380, 410), Fit::Cover);
         canvas.draw_image(&image1, (722, 752), None);
         canvas.draw_image(&image2, (63, 278), None);
         canvas.draw_image(&frame, (0, 0), None);

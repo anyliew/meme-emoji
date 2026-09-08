@@ -1,43 +1,46 @@
-use skia_safe::Image;
-
+use skia_safe::Color;
 use meme_generator_core::error::Error;
 use meme_generator_utils::{
     builder::InputImage,
-    encoder::{FrameAlign, GifInfo, make_gif_or_combined_gif},
-    image::{Fit, ImageExt},
+    encoder::GifEncoder,
+    image::ImageExt,
     tools::{load_image, local_date, new_surface},
 };
-
 use crate::{options::NoOptions, register_meme};
 
 fn shuai(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
-    let locs = [(83, 69, 43, 135), (53, 45, 49, 103), (53, 44, 138, 100), (61, 62, 149, 125)];
+    let locs = [
+        (83, 69, 43, 135),
+        (53, 45, 49, 103),
+        (53, 44, 138, 100),
+        (61, 62, 149, 125),
+    ];
 
-    let func = |i: usize, images: Vec<Image>| {
-        let frame = load_image(format!("shuai/{i}.png"))?;
+    let mut encoder = GifEncoder::new();
+
+    for i in 0..4 {
         let (w, h, x, y) = locs[i];
-        let image = images[0].resize_bound((w, h), Fit::Cover);
+        let frame = load_image(format!("shuai/{i}.png"))?;
         let mut surface = new_surface(frame.dimensions());
         let canvas = surface.canvas();
-        canvas.draw_image(&frame, (0, 0), None);
-        canvas.draw_image(&image, (x, y), None);
-        Ok(surface.image_snapshot())
-    };
+        canvas.clear(Color::WHITE);
 
-    make_gif_or_combined_gif(
-        images,
-        func,
-        GifInfo { frame_num: 2, duration: 0.05 },
-        FrameAlign::ExtendLoop,
-    )
+        let img = images[0].image.square().resize_exact((w, h)).circle();
+        canvas.draw_image(&img, (x, y), None);
+        canvas.draw_image(&frame, (0, 0), None);
+
+        encoder.add_frame(surface.image_snapshot(), 0.05)?;
+    }
+
+    encoder.finish()
 }
 
-register_meme!(
+register_meme! {
     "shuai",
     shuai,
-    min_images = 2,
-    max_images = 2,
+    min_images = 1,
+    max_images = 1,
     keywords = &["甩"],
-    date_created = local_date(2025, 10, 6),
-    date_modified = local_date(2025, 10, 6),
-);
+    date_created = local_date(2025, 5, 27),
+    date_modified = local_date(2025, 5, 27),
+}

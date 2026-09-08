@@ -28,3 +28,4 @@ meme-emoji.eddxs
 build-meme.bat
 force_copy_images.bat
 generate_mods.py
+*.bat

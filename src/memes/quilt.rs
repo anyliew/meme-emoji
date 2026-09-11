@@ -21,23 +21,28 @@ fn quilt(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8
     
     let user_head = images[0].image.resize_exact((142, 146));
 
+    let frames = (0..positions.len())
+        .map(|i| load_image(format!("quilt/{i}.png")))
+        .collect::<Result<Vec<_>, _>>()?;
+    let frame_size = frames.iter().fold((0, 0), |(w, h), frame| {
+        (w.max(frame.width()), h.max(frame.height()))
+    });
+
     let mut encoder = GifEncoder::new();
-    
-    for i in 0..21 {
-        let frame = load_image(format!("quilt/{}.png", i + 1))?;
-        
-        let mut surface = new_surface(frame.dimensions());
+
+    for (i, frame) in frames.iter().enumerate() {
+        let mut surface = new_surface(frame_size);
         let canvas = surface.canvas();
-        
+
         canvas.clear(Color::TRANSPARENT);
-        
+
         let (x, y) = positions[i];
         canvas.draw_image(&user_head, (x, y), None);
-        canvas.draw_image(&frame, (0, 0), None);
-        
+        canvas.draw_image(frame, (0, 0), None);
+
         encoder.add_frame(surface.image_snapshot(), 0.03)?;
     }
-    
+
     encoder.finish()
 }
 

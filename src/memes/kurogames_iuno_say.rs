@@ -1,8 +1,9 @@
+use rand::RngExt;
 use skia_safe::{Color, IRect, textlayout::TextAlign};
 
 use meme_generator_core::error::Error;
 use meme_generator_utils::{
-    builder::InputImage,
+    builder::{InputImage, MemeOptions},
     canvas::CanvasExt,
     encoder::encode_png,
     image::ImageExt,
@@ -10,23 +11,34 @@ use meme_generator_utils::{
     tools::{load_image, local_date, new_paint},
 };
 
-use crate::{options::NoOptions, register_meme, tags::MemeTags};
+use crate::{options::number_option, register_meme, tags::MemeTags};
+
+number_option!(Number, 1, 2);
 
 const DEFAULT_TEXT: &str = "月亮游离世间";
+
 fn kurogames_iuno_say(
     _: Vec<InputImage>,
     texts: Vec<String>,
-    _: NoOptions,
+    options: Number,
 ) -> Result<Vec<u8>, Error> {
-    let text = if !texts.is_empty() { &texts[0] } else { DEFAULT_TEXT };
-    let frame = load_image("kurogames_iuno_say/0.jpg")?;
+    let text = &texts[0];
+    let num = options.number.unwrap_or(rand::rng().random_range(1..=2));
+    let index = num as usize - 1;
+    let files = ["0.jpg", "1.jpg"];
+    let rects = [
+        IRect::from_ltrb(1, 1, 199, 42),
+        IRect::from_ltrb(0, 0, 1024, 249),
+    ];
+
+    let frame = load_image(format!("kurogames_iuno_say/{}", files[index]))?;
     let mut surface = frame.to_surface();
     let canvas = surface.canvas();
     canvas.draw_text_area_auto_font_size(
-        IRect::from_ltrb(1, 1, 199, 42),
+        rects[index],
         text,
-        5.0,
-        80.0,
+        30.0,
+        180.0,
         text_params!(
             font_families = &["FZShaoEr-M11S"],
             text_align = TextAlign::Center,
@@ -45,6 +57,6 @@ register_meme!(
     tags = MemeTags::wuthering_waves(),
     default_texts = &[DEFAULT_TEXT],
     keywords = &["尤诺说"],
-    date_created = local_date(2025, 10, 6),
-    date_modified = local_date(2025, 10, 6),
+    date_created = local_date(2025, 8, 11),
+    date_modified = local_date(2025, 8, 11),
 );

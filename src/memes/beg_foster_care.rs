@@ -18,7 +18,7 @@ fn beg_foster_care(
     _: NoOptions,
 ) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (x坐标, y坐标)
-    let params = [(72, 37); 14];
+    let params = [ (72, 37); 13 ];
 
     let func = |i: usize, images: Vec<Image>| {
         let frame = load_image(format!("beg_foster_care/{i}.png"))?;
@@ -34,7 +34,7 @@ fn beg_foster_care(
         images,
         func,
         GifInfo {
-            frame_num: 14,
+            frame_num: 13,
             duration: 0.08,
         },
         FrameAlign::ExtendLoop,

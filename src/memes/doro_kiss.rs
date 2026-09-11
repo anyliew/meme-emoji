@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn doro_kiss(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-    (190, 160, 65, 343),
+    
     (190, 160, 65, 343),
     (190, 160, 65, 343),
     (190, 160, 65, 343),
@@ -34,7 +34,7 @@ fn doro_kiss(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Ve
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..10 {
+    for i in 0..9 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

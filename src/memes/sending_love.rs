@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn sending_love(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-    (159, 128, 76, 76),
+    
     (159, 128, 76, 76),
     (159, 128, 84, 78),
     (159, 128, 76, 76),
@@ -40,7 +40,7 @@ fn sending_love(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..16 {
+    for i in 0..15 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

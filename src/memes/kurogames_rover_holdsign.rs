@@ -19,7 +19,7 @@ fn kurogames_rover_holdsign(
     _: NoOptions,
 ) -> Result<Vec<u8>, Error> {
     let text = if !texts.is_empty() { &texts[0] } else { DEFAULT_TEXT };
-    let frame = load_image("kurogames_rover_holdsign/0.jpg")?;
+    let frame = load_image("kurogames_rover_holdsign/0.png")?;
     let mut surface = frame.to_surface();
     let canvas = surface.canvas();
     canvas.draw_text_area_auto_font_size(

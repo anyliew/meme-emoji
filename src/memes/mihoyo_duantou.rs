@@ -72,7 +72,7 @@ fn mihoyo_duantou(
     let user_img = images[0].image.circle();
     let mut encoder = GifEncoder::new();
     for i in 0..125 {
-        let frame = load_image(format!("mihoyo_duantou/{}.png", i + 1))?;
+        let frame = load_image(format!("mihoyo_duantou/{}.png", i))?;
         let mut surface = new_surface(frame.dimensions());
         let canvas = surface.canvas();
         canvas.clear(Color::TRANSPARENT);

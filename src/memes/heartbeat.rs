@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn heartbeat(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-    (110, 110, 78, 96),
+    
     (110, 110, 78, 96),
     (110, 110, 78, 96),
     (110, 110, 80, 97),
@@ -32,7 +32,7 @@ fn heartbeat(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Ve
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..8 {
+    for i in 0..7 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

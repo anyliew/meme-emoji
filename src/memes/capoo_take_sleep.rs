@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn capoo_take_sleep(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-    (65, 47, 1, 103),
+    
     (65, 47, 1, 103),
     (65, 47, 1, 103),
     (65, 47, 1, 103),
@@ -52,7 +52,7 @@ fn capoo_take_sleep(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Re
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..28 {
+    for i in 0..27 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

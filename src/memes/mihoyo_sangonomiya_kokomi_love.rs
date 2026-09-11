@@ -16,7 +16,6 @@ fn mihoyo_sangonomiya_kokomi_love(images: Vec<InputImage>, _: Vec<String>, _: No
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
     (185, 144, 239, 234),
-    (185, 144, 239, 234),
     (180, 145, 243, 234),
     (170, 155, 250, 231),
     (158, 164, 258, 229),
@@ -44,7 +43,7 @@ fn mihoyo_sangonomiya_kokomi_love(images: Vec<InputImage>, _: Vec<String>, _: No
     (185, 144, 239, 234),
     (185, 144, 239, 234),
     (185, 144, 239, 234),
-    (185, 144, 239, 234)
+    (185, 144, 239, 234),
     ];
     
     // 获取输入的第一张图像并转换为正方形
@@ -54,7 +53,7 @@ fn mihoyo_sangonomiya_kokomi_love(images: Vec<InputImage>, _: Vec<String>, _: No
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..30 {
+    for i in 0..29 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

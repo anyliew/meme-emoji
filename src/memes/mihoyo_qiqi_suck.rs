@@ -16,7 +16,6 @@ fn mihoyo_qiqi_suck(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Re
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
     (155, 155, 78, 641),
-    (155, 155, 78, 641),
     (155, 155, 92, 617),
     (155, 155, 123, 589),
     (155, 155, 144, 550),
@@ -84,8 +83,6 @@ fn mihoyo_qiqi_suck(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Re
     (155, 155, 77, 640),
     (155, 155, 77, 640),
     (155, 155, 77, 640),
-    (155, 155, 77, 640),
-    (155, 155, 77, 640)
     ];
     
     // 获取输入的第一张图像并转换为正方形
@@ -95,7 +92,7 @@ fn mihoyo_qiqi_suck(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Re
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..69 {
+    for i in 0..68 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn bird_lgnoring(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let params = [
-        (55, 55, 95, 69),
+        
         (55, 55, 95, 69),
         (55, 55, 95, 69),
         (55, 55, 95, 66),
@@ -78,7 +78,7 @@ fn bird_lgnoring(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Resul
         images,
         func,
         GifInfo {
-            frame_num: 14,
+            frame_num: 45,
             duration: 0.07,
         },
         FrameAlign::ExtendLoop,

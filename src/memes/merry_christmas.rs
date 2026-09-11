@@ -15,10 +15,14 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn merry_christmas(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-    (118, 89, 70, 120),
-    (118, 89, 70, 120),
-    (118, 89, 70, 120),
-    (118, 89, 70, 120)
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
+    (93, 77, 60, 90),
     ];
     
     // 获取输入的第一张图像并转换为正方形
@@ -28,7 +32,7 @@ fn merry_christmas(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Res
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..4 {
+    for i in 0..8 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         
@@ -52,7 +56,7 @@ fn merry_christmas(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Res
         canvas.draw_image(&frame, (0, 0), None);
         
         // 将当前帧添加到GIF编码器，设置帧间隔为0.04秒
-        encoder.add_frame(surface.image_snapshot(), 0.5)?;
+        encoder.add_frame(surface.image_snapshot(), 0.1)?;
     }
     
     // 完成GIF编码并返回字节数据

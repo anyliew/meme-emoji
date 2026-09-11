@@ -22,7 +22,7 @@ fn kurogames_abby_weeping(
         (2, 70),
     ];
     let image = images[0].image.circle().resize_exact((80, 80));
-    let frames = (1..=locs.len())
+    let frames = (0..locs.len())
         .map(|i| load_image(format!("kurogames_abby_weeping/{i}.png")))
         .collect::<Result<Vec<_>, _>>()?;
     let frame_size = frames.iter().fold((0, 0), |(w, h), frame| {

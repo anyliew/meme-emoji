@@ -1,8 +1,9 @@
+use rand::RngExt;
 use skia_safe::{Color, IRect, textlayout::TextAlign};
 
 use meme_generator_core::error::Error;
 use meme_generator_utils::{
-    builder::InputImage,
+    builder::{InputImage, MemeOptions},
     canvas::CanvasExt,
     encoder::encode_png,
     image::ImageExt,
@@ -10,22 +11,33 @@ use meme_generator_utils::{
     tools::{load_image, local_date, new_paint},
 };
 
-use crate::{options::NoOptions, register_meme, tags::MemeTags};
+use crate::{options::number_option, register_meme, tags::MemeTags};
 
-const DEFAULT_TEXT: &str = "鸣潮玩家的声音太尖锐了";
+number_option!(Number, 1, 2);
+
+const DEFAULT_TEXT: &str = "我看到弹幕上的好好好……";
+
 fn kurogames_songlun_say(
     _: Vec<InputImage>,
     texts: Vec<String>,
-    _: NoOptions,
+    options: Number,
 ) -> Result<Vec<u8>, Error> {
-    let text = if !texts.is_empty() { &texts[0] } else { DEFAULT_TEXT };
-    let frame = load_image("kurogames_songlun_say/0.jpg")?;
+    let text = &texts[0];
+    let num = options.number.unwrap_or(rand::rng().random_range(1..=2));
+    let index = num as usize - 1;
+    let files = ["0.png", "1.png"];
+    let rects = [
+        IRect::from_ltrb(283, 318, 760, 615),
+        IRect::from_ltrb(280, 185, 942, 545),
+    ];
+
+    let frame = load_image(format!("kurogames_songlun_say/{}", files[index]))?;
     let mut surface = frame.to_surface();
     let canvas = surface.canvas();
     canvas.draw_text_area_auto_font_size(
-        IRect::from_ltrb(283, 318, 760, 615),
+        rects[index],
         text,
-        25.0,
+        30.0,
         120.0,
         text_params!(
             font_families = &["FZSJ-QINGCRJ"],
@@ -44,7 +56,7 @@ register_meme!(
     max_texts = 1,
     tags = MemeTags::wuthering_waves(),
     default_texts = &[DEFAULT_TEXT],
-    keywords = &["难道说","松伦说"],
-    date_created = local_date(2025, 10, 6),
-    date_modified = local_date(2025, 10, 6),
+    keywords = &["难道说", "松伦说"],
+    date_created = local_date(2025, 6, 10),
+    date_modified = local_date(2025, 6, 10),
 );

@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme, tags::MemeTags}; // 当前crate�
 fn kurogames_iuno_kick(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-    (108, 108, 88, 40),   // 第0帧
+       // 第0帧
     (108, 108, 88, 40),   // 第1帧
     (108, 108, 88, 40),   // 第2帧
     (105, 105, 122, 49),  // 第3帧
@@ -59,7 +59,7 @@ fn kurogames_iuno_kick(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) ->
     let mut encoder = GifEncoder::new();
     
     // 循环生成35帧动画
-    for i in 0..35 {
+    for i in 0..34 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

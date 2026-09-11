@@ -15,7 +15,7 @@ use crate::{options::NoOptions, register_meme}; // 当前crate的模块
 fn shamate(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<u8>, Error> {
     // 定义四个帧中图像的位置和尺寸参数 (宽度, 高度, x坐标, y坐标)
     let locs = [
-        (250, 250, 70, 145),
+        
         (250, 250, 70, 145),
         (250, 250, 70, 145),
         (250, 250, 70, 145),
@@ -58,7 +58,7 @@ fn shamate(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<
     let mut encoder = GifEncoder::new();
     
     // 循环生成数量帧动画
-    for i in 0..35 {
+    for i in 0..34 {
         // 获取当前帧的位置和尺寸参数
         let (w, h, x, y) = locs[i];
         

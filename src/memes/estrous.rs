@@ -21,7 +21,7 @@ fn estrous(images: Vec<InputImage>, _: Vec<String>, _: NoOptions) -> Result<Vec<
         (108, 229), (106, 230), (105, 227),
     ];
     let image = images[0].image.resize_exact((98, 66));
-    let frames = (1..=locs.len())
+    let frames = (0..locs.len())
         .map(|i| load_image(format!("estrous/{i}.png")))
         .collect::<Result<Vec<_>, _>>()?;
     let frame_size = frames.iter().fold((0, 0), |(w, h), frame| {

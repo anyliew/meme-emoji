@@ -49,12 +49,15 @@ mod tests {
         for declaration in inventory::iter::<MemeDeclaration> {
             total += 1;
             let meme = (declaration.builder)();
-            match meme_generator_core::meme::Meme::generate_preview(&*meme, HashMap::new()) {
-                Ok(bytes) if bytes.len() >= 32 && is_png_or_gif(&bytes) => {
+            let result = std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
+                meme_generator_core::meme::Meme::generate_preview(&*meme, HashMap::new())
+            }));
+            match result {
+                Ok(Ok(bytes)) if bytes.len() >= 32 && is_png_or_gif(&bytes) => {
                     passed += 1;
                     log_line(&format!("ok  {} ({} bytes)", declaration.name, bytes.len()));
                 }
-                Ok(bytes) => {
+                Ok(Ok(bytes)) => {
                     let msg = format!(
                         "{}: invalid output ({} bytes)",
                         declaration.name,
@@ -63,8 +66,13 @@ mod tests {
                     log_line(&format!("FAIL {msg}"));
                     failures.push(msg);
                 }
-                Err(err) => {
+                Ok(Err(err)) => {
                     let msg = format!("{}: {err}", declaration.name);
+                    log_line(&format!("FAIL {msg}"));
+                    failures.push(msg);
+                }
+                Err(_) => {
+                    let msg = format!("{}: panic", declaration.name);
                     log_line(&format!("FAIL {msg}"));
                     failures.push(msg);
                 }

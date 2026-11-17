@@ -50,7 +50,7 @@ register_meme!(
     nailoong_scratchead,
     min_images = 1,
     max_images = 1,
-    keywords = &["奶龙挠头"],
+    keywords = &["奶龙挠痒痒", "挠痒痒"],
     date_created = local_date(2026, 11, 17),
     date_modified = local_date(2026, 11, 17),
 );

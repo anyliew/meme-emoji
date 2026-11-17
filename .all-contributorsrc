@@ -1,35 +1,35 @@
 {
-"projectName": "anyliew/meme_emoji",
-"projectOwner": "anyliew",
-"repoType": "github",
-"repoHost": "https://github.com",
-"files": [
-"README.md"
-],
-"imageSize": 100,
-"commit": true,
-"commitConvention": "gitmoji",
-"contributors": [
-{
-"login": "balh55y",
-"name": "balh55y",
-"avatar_url": "https://avatars.githubusercontent.com/balh55y",
-"profile": "https://github.com/balh55y",
-"contributions": [
-"code"
-]
-},
-{
-"login": "mmmpipi",
-"name": "mmmpipi",
-"avatar_url": "https://avatars.githubusercontent.com/mmmpipi",
-"profile": "https://github.com/mmmpipi",
-"contributions": [
-"code"
-]
-}
-],
-"contributorsPerLine": 7,
-"linkToUsage": true,
-"badge": false
+  "projectName": "anyliew/meme-emoji",
+  "projectOwner": "anyliew",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "commitConvention": "gitmoji",
+  "contributorsPerLine": 7,
+  "linkToUsage": true,
+  "badge": false,
+  "contributors": [
+    {
+      "login": "balh55y",
+      "name": "balh55y",
+      "avatar_url": "https://avatars.githubusercontent.com/balh55y",
+      "profile": "https://github.com/balh55y",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "mmmpipi",
+      "name": "mmmpipi",
+      "avatar_url": "https://avatars.githubusercontent.com/mmmpipi",
+      "profile": "https://github.com/mmmpipi",
+      "contributions": [
+        "code"
+      ]
+    }
+  ]
 }

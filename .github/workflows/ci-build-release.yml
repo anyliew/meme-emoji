@@ -350,11 +350,6 @@ jobs:
           fi
 
           {
-            echo "## 选择下载"
-            echo
-            echo "按你的 meme-generator 主程序编译时所用的 Rust 版本选择对应一列。"
-            echo
-            printf '%b' "${TABLE}"
             echo "## 本次更新"
             echo
             cat /tmp/commits.md
@@ -366,6 +361,12 @@ jobs:
             echo "- 版本: \`${VERSION}\`"
             echo "- 发布时间: ${SGT}（SGT，UTC+8）"
             echo "- 版本号格式: \`{Cargo版本}+build.{构建号}\`，构建号基于 Git 提交次数自动生成"
+            echo
+            echo "## 选择下载"
+            echo
+            echo "按你的 meme-generator 主程序编译时所用的 Rust 版本选择对应一列。"
+            echo
+            printf '%b' "${TABLE}"
           } > /tmp/release_body.md
 
           echo "📝 Release body:"

@@ -33,11 +33,12 @@ jobs:
         with:
           repository: ${{ github.repository }}.wiki
           path: wiki
+          fetch-depth: 0
 
       - name: Checkout upstream repo
         uses: actions/checkout@v5
         with:
-          repository: MemeCrafters/meme-generator-rs
+          repository: anyliew/meme-generator-rs
           path: main
 
       # 与 ci-build-release 保持一致，避免工具链版本差异导致编译失败
@@ -99,4 +100,6 @@ jobs:
             exit 0
           fi
           git commit -m "更新表情列表 - $UPDATE_TIME（SGT）"
+          # wiki 也可能被手工编辑过，先 rebase 再推送，避免 non-fast-forward
+          git pull --rebase origin master
           git push origin HEAD:master

@@ -342,6 +342,7 @@ mod nailoong_scratchead;
 mod nailoong_sidestep;
 mod nailoong_smile;
 mod nailoong_snuggle;
+mod nailoong_steady;
 mod nailoong_sync;
 mod nakano_lchika;
 mod nakano_ltsuki;
